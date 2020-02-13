@@ -17,8 +17,7 @@ class ApplicationState(
 //        val context: Context,
         indyPoolIp: InetAddress,
         indyPoolGenesisPath: URI,
-        indyPoolGenesisContent: (nodeIp: InetAddress) -> String = ::StandardIndyPoolGenesis)
-{
+        indyPoolGenesisContent: (nodeIp: InetAddress) -> String = ::StandardIndyPoolGenesis) {
     val indyState: IndyState = IndyState(indyPoolIp, indyPoolGenesisPath, indyPoolGenesisContent)
 
     private val refreshedIndyUser = VolatileLiveDataHolder(indyState.indyUser)
@@ -28,13 +27,16 @@ class ApplicationState(
 
     lateinit var context: Context
     val user: LiveData<UserState> =
-        walletCredentials.map { creds ->
-            val credRef = creds.firstOrNull { it.getSchemaIdObject().name == KnownSchemas.PersonalId.schemaName }
-            val name = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.name, null)?.toString()
-            val pic = context.getDrawable(R.drawable.user)
+            walletCredentials.map { creds ->
+                val credRef = creds.firstOrNull { it.getSchemaIdObject().name == KnownSchemas.PersonalId.schemaName }
+                val firstName = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.firstName, null)?.toString()
+                val birthDate = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.birthDate, null)?.toString()
+                val photo = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.photo, null)?.toString()
+                val secondName = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.secondName, null)?.toString()
+                val swissPassNum = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.swissPassNum, null)?.toString()
 
-            UserState(name, pic)
-        }
+                UserState(firstName, birthDate, photo, secondName, swissPassNum)
+            }
 
     private val mutAuthenticationHistory = MutableLiveData(initialValue = listOf<VerificationEvent>())
     val authenticationHistory: LiveData<List<VerificationEvent>> = mutAuthenticationHistory
