@@ -6,11 +6,20 @@ package com.luxoft.supplychain.sovrinagentapp.data
  * */
 object KnownSchemas {
     object PersonalId {
-        val schemaName = "Patient Demographics"
+        val schemaName = "Swiss Travel Pass"
 
         object attributes {
-            val name = "Full_Legal_Name"
+            val firstName = "First_Name"
+            val birthDate = "Birth_Date"
+            val photo = "Photo"
+            val secondName = "Second_Name"
+            val swissPassNum = "Swiss_Pass_Num"
         }
+//        val schemaName = "Patient Demographics"
+//
+//        object attributes {
+//            val name = "Full_Legal_Name"
+//        }
     }
 
     object Common {

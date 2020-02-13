@@ -14,16 +14,20 @@ const val TAILS_PATH = "/sdcard/tails"
 
 //const val nodeIp = """52.15.95.244"""  // amazon
 //const val GENESIS_IP = """52.15.95.244"""  // azure
-const val GENESIS_IP = """52.224.217.165"""  // azure
+//const val GENESIS_IP = """52.224.217.165"""  // azure
+const val GENESIS_IP = """13.233.161.25"""  // aws sbb poc
 
 
 //const val WS_ENDPOINT = "ws://localhost:8094/ws"
 //const val WS_ENDPOINT = "ws://13.92.115.239:8094/ws"  // azure
 //const val WS_ENDPOINT = "ws://3.17.65.252:8094/ws"  // amazon
-const val WS_ENDPOINT = "ws://52.224.104.135:8094/ws"  // client
+//const val WS_ENDPOINT = "ws://52.224.104.135:8094/ws"  // client
+const val WS_ENDPOINT = "ws://13.233.168.192:8094/ws"  // aws sbb poc
 
-const val WS_LOGIN = "medical-supplychain"
-const val WS_PASS = "secretPassword"
+const val WS_LOGIN = ""
+const val WS_PASS = ""
+//const val WS_LOGIN = "medical-supplychain"
+//const val WS_PASS = "secretPassword"
 
 const val QR_SCANNER_CODE_EXTRA = "com.blikoon.qrcodescanner.got_qr_scan_relult"
 
