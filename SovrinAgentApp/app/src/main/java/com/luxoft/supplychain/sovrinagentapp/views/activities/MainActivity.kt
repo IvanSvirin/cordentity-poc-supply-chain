@@ -67,11 +67,7 @@ class MainActivity : AppCompatActivity() {
 //        setupViewPager()
 
 //        startTimer()
-        buttonSconQR.setOnClickListener { v ->
-            run {
-                startActivity(Intent(this, SimpleScannerActivity::class.java))
-            }
-        }
+        getQr()
     }
 
 //    private fun setupViewPager() {
@@ -182,7 +178,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showQR(bitmap: Bitmap?) {
-        //imageViewQR.setImageBitmap(bitmap)
+        imageViewQRCode.setImageBitmap(bitmap)
         vm.waitForInvitedParty(30000L)
         vm.indyPartyConnection.observe(this, Observer { updateIndyPartyConnection(it) })
     }
