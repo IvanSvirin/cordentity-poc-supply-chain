@@ -18,6 +18,7 @@ package com.luxoft.supplychain.sovrinagentapp.views.activities
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
@@ -50,9 +51,9 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class MainActivity : AppCompatActivity() {
 
-    private val realm: Realm = Realm.getDefaultInstance()
-    private val appState: ApplicationState by inject()
-    private lateinit var ordersFragment: OrdersFragment
+    //    private val realm: Realm = Realm.getDefaultInstance()
+//    private val appState: ApplicationState by inject()
+//    private lateinit var ordersFragment: OrdersFragment
     private val vm: IndyViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,48 +63,53 @@ class MainActivity : AppCompatActivity() {
         System.setProperty("jna.debug_load", "true")
 
         setContentView(R.layout.activity_main)
-        setupToolbar()
-        setupViewPager()
+//        setupToolbar()
+//        setupViewPager()
 
-        startTimer()
-    }
-
-    private fun setupViewPager() {
-        val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFrag(ClaimsFragment())
-        ordersFragment = OrdersFragment()
-        adapter.addFrag(ordersFragment)
-        adapter.addFrag(HistoryFragment())
-        viewpager.adapter = adapter
-
-        tabs.setupWithViewPager(viewpager)
-    }
-
-    private fun setupToolbar() {
-        appState.indyState.indyUser.observeForever { user: IndyUser ->
-            user.walletUser.updateCredentialsInRealm()
+//        startTimer()
+        buttonSconQR.setOnClickListener { v ->
+            run {
+                startActivity(Intent(this, SimpleScannerActivity::class.java))
+            }
         }
-        val nameClaims = realm.where(ClaimAttribute::class.java)
-                .equalTo(FIELD_KEY, NAME)
-                .findAllAsync()
+    }
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+//    private fun setupViewPager() {
+//        val adapter = ViewPagerAdapter(supportFragmentManager)
+//        adapter.addFrag(ClaimsFragment())
+//        ordersFragment = OrdersFragment()
+//        adapter.addFrag(ordersFragment)
+//        adapter.addFrag(HistoryFragment())
+//        viewpager.adapter = adapter
+//
+//        tabs.setupWithViewPager(viewpager)
+//    }
 
-//        nameClaims.addChangeListener { claims ->
-//            val userName = claims.first()?.value ?: ""
-//            supportActionBar?.title = userName
+//    private fun setupToolbar() {
+//        appState.indyState.indyUser.observeForever { user: IndyUser ->
+//            user.walletUser.updateCredentialsInRealm()
 //        }
-        appState.user.observe({ lifecycle }) { user ->
-            headerTitle.text = user.name ?: ""
-        }
-    }
+//        val nameClaims = realm.where(ClaimAttribute::class.java)
+//                .equalTo(FIELD_KEY, NAME)
+//                .findAllAsync()
+//
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+//
+////        nameClaims.addChangeListener { claims ->
+////            val userName = claims.first()?.value ?: ""
+////            supportActionBar?.title = userName
+////        }
+//        appState.user.observe({ lifecycle }) { user ->
+//            headerTitle.text = user.name ?: ""
+//        }
+//    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        realm.removeAllChangeListeners()
-        realm.close()
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        realm.removeAllChangeListeners()
+//        realm.close()
+//    }
 
     companion object {
         var popupStatus: AtomicInteger = AtomicInteger(0)
@@ -117,43 +123,43 @@ class MainActivity : AppCompatActivity() {
                 .setPositiveButton("ok") { _, _ -> callback() }.show()
     }
 
-    var uiHandler: Handler? = null
-    lateinit var myTimer: Timer
-    val timeoutRunnable = Runnable {
-        when (popupStatus.get()) {
-            PopupStatus.IN_PROGRESS.ordinal -> {
-                if (!inProgress) {
-                    showNotification(this, "In progress", "")
-                    inProgress = true
-                }
-            }
-            PopupStatus.RECEIVED.ordinal -> {
-                if (inProgress) {
-                    inProgress = false
-                    showNotification(this, getString(R.string.new_digital_receipt), getString(R.string.you_ve_received))
-                    ordersFragment.onResume()
-                }
-            }
-            PopupStatus.HISTORY.ordinal -> {
-                if (inProgress) {
-                    inProgress = false
-                    showNotification(this, "Package history", "Your package history is available")
-                }
-            }
-        }
-    }
+//    var uiHandler: Handler? = null
+//    lateinit var myTimer: Timer
+//    val timeoutRunnable = Runnable {
+//        when (popupStatus.get()) {
+//            PopupStatus.IN_PROGRESS.ordinal -> {
+//                if (!inProgress) {
+//                    showNotification(this, "In progress", "")
+//                    inProgress = true
+//                }
+//            }
+//            PopupStatus.RECEIVED.ordinal -> {
+//                if (inProgress) {
+//                    inProgress = false
+//                    showNotification(this, getString(R.string.new_digital_receipt), getString(R.string.you_ve_received))
+//                    ordersFragment.onResume()
+//                }
+//            }
+//            PopupStatus.HISTORY.ordinal -> {
+//                if (inProgress) {
+//                    inProgress = false
+//                    showNotification(this, "Package history", "Your package history is available")
+//                }
+//            }
+//        }
+//    }
 
-    private val timeoutTimerTask = object : TimerTask() {
-        override fun run() {
-            uiHandler!!.post(timeoutRunnable)
-        }
-    }
-
-    private fun startTimer() {
-        myTimer = Timer()
-        uiHandler = Handler()
-        myTimer.schedule(timeoutTimerTask, 1L * 1000, 1L * 1000)
-    }
+//    private val timeoutTimerTask = object : TimerTask() {
+//        override fun run() {
+//            uiHandler!!.post(timeoutRunnable)
+//        }
+//    }
+//
+//    private fun startTimer() {
+//        myTimer = Timer()
+//        uiHandler = Handler()
+//        myTimer.schedule(timeoutTimerTask, 1L * 1000, 1L * 1000)
+//    }
 
     fun getQr() {
         vm.getInviteQRCode()
@@ -178,7 +184,7 @@ class MainActivity : AppCompatActivity() {
     private fun showQR(bitmap: Bitmap?) {
         //imageViewQR.setImageBitmap(bitmap)
         vm.waitForInvitedParty(30000L)
-        vm.indyPartyConnection.observe(this, Observer{updateIndyPartyConnection(it)})
+        vm.indyPartyConnection.observe(this, Observer { updateIndyPartyConnection(it) })
     }
 
     private fun updateIndyPartyConnection(resource: Resource<IndyPartyConnection>?) {
@@ -198,7 +204,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun sendProofRequestReceiveAndVerify(indyPartyConnection: IndyPartyConnection?) {
         indyPartyConnection?.let { vm.sendProofRequestReceiveAndVerify(it) }
-        vm.verified.observe(this, Observer{updateVerified(it)})
+        vm.verified.observe(this, Observer { updateVerified(it) })
     }
 
     private fun updateVerified(resource: Resource<Boolean>?) {
