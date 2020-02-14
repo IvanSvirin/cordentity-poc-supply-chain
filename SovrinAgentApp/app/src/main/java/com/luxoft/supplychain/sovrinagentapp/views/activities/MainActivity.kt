@@ -185,7 +185,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showQR(bitmap: Bitmap?) {
         imageViewQRCode.setImageBitmap(bitmap)
-        vm.waitForInvitedParty(30000L)
+        vm.waitForInvitedParty(60000L)
         vm.indyPartyConnection.observe(this, Observer { updateIndyPartyConnection(it) })
     }
 
