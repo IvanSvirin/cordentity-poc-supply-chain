@@ -52,7 +52,7 @@ import java.util.concurrent.atomic.AtomicInteger
 class MainActivity : AppCompatActivity() {
 
     //    private val realm: Realm = Realm.getDefaultInstance()
-//    private val appState: ApplicationState by inject()
+    private val appState: ApplicationState by inject()
 //    private lateinit var ordersFragment: OrdersFragment
     private val vm: IndyViewModel by viewModel()
 
@@ -61,6 +61,10 @@ class MainActivity : AppCompatActivity() {
 
         System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "TRACE")
         System.setProperty("jna.debug_load", "true")
+
+        appState.indyState.indyUser.observeForever { user: IndyUser ->
+            user.walletUser.updateCredentialsInRealm()
+        }
 
         setContentView(R.layout.activity_main)
 //        setupToolbar()
@@ -71,6 +75,8 @@ class MainActivity : AppCompatActivity() {
             run {
                 startActivity(Intent(this, SimpleScannerActivity::class.java))
             }
+        }
+        appState.user.observe({lifecycle}) { user ->
         }
     }
 
