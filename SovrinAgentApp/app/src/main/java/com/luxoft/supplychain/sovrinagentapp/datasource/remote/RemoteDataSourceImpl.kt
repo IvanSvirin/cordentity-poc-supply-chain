@@ -17,6 +17,9 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.luxoft.blockchainlab.corda.hyperledger.indy.IndyPartyConnection
+import com.luxoft.blockchainlab.hyperledger.indy.utils.FilterProperty
+import com.luxoft.blockchainlab.hyperledger.indy.utils.proofRequest
+import com.luxoft.blockchainlab.hyperledger.indy.utils.reveal
 import com.luxoft.supplychain.sovrinagentapp.application.*
 
 
@@ -167,7 +170,15 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
     }
 
     private fun createProofRequest(): ProofRequest {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val proofReq = proofRequest("proof_req", "0.1") {
+            reveal("firstName")
+            reveal("birthDate")
+            reveal("photo")
+            reveal("secondName")
+            reveal("swissPassNum")
+//            reveal("medicalid") { FilterProperty.IssuerDid shouldBe "H4KaAh8W8DUaj47s4PXQEB" }
+        }
+        return proofReq;
     }
 
 }
