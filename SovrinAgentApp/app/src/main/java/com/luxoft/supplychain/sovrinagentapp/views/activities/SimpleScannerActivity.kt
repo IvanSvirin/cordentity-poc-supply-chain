@@ -64,7 +64,7 @@ class SimpleScannerActivity : AppCompatActivity() {
     private val appState: ApplicationState by inject()
 
     private val api: SovrinAgentService by inject()
-//    private val indyUser: IndyUser by inject()
+    //    private val indyUser: IndyUser by inject()
     private val agentConnection: AgentConnection by inject()
     private val requestCodeScan = 101
 
@@ -155,7 +155,7 @@ class SimpleScannerActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
-            val result =  IntentIntegrator.parseActivityResult(requestCode, resultCode, data).contents
+            val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data).contents
 
             val state = intent?.getStringExtra(EXTRA_STATE)
             if (result == null || !(correctInvite.matches(result) || (PackageState.COLLECTED.name == state && correctUtl.matches(result)))) return
@@ -166,6 +166,9 @@ class SimpleScannerActivity : AppCompatActivity() {
 
             vm.receiveProofRequest(result)
             vm.proofRequest.observe(this, Observer { updateProofRequestGot(it) })
+//            vm.getCredentials(url = result)
+//            vm.responseCredentialsGot.observe(this, Observer { updateResponseCredentialsGot(it) })
+
 //            when (state) {
 //                PackageState.GETPROOFS.name -> {
 //                    vm.getCredentials(url = result)

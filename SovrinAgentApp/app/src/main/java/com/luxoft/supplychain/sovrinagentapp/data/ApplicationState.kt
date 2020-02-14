@@ -29,12 +29,15 @@ class ApplicationState(
     val user: LiveData<UserState> =
             walletCredentials.map { creds ->
                 val credRef = creds.firstOrNull { it.getSchemaIdObject().name == KnownSchemas.PersonalId.schemaName }
+//                val name = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.name, null)?.toString()
+//                val pic = context.getDrawable(R.drawable.user)
                 val firstName = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.firstName, null)?.toString()
                 val birthDate = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.birthDate, null)?.toString()
                 val photo = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.photo, null)?.toString()
                 val secondName = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.secondName, null)?.toString()
                 val swissPassNum = credRef?.attributes?.getOrDefault(KnownSchemas.PersonalId.attributes.swissPassNum, null)?.toString()
 
+//                UserState(name,pic)
                 UserState(firstName, birthDate, photo, secondName, swissPassNum)
             }
 
