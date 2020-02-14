@@ -81,7 +81,7 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
         return Single.create<ProofRequest> { s ->
             run {
                 try {
-                    agentConnection.acceptInvite(SerializationUtils.jSONToAny<Invite>(url).invite).toBlocking().value().apply {
+                    agentConnection.acceptInvite(url).toBlocking().value().apply {
                         val proofRequest = receiveProofRequest().toBlocking().value()
                         sharedPreferencesStore.writeString(sharedPreferencesLastConnectionDiDName, sharedPreferencesLastConnectionDiDKey, this.partyDID())
                         s.onSuccess(proofRequest)

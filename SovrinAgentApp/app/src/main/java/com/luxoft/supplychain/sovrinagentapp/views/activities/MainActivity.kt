@@ -78,6 +78,11 @@ class MainActivity : AppCompatActivity() {
         }
         appState.user.observe({lifecycle}) { user ->
         }
+//        appState.indyState.indyUser.observe({lifecycle}){indyUser: IndyUser ->
+//            indyUser.checkLedgerAndReceiveCredential(credential, credentialRequest, this)
+//            appState.updateWalletCredentials()
+//        }
+
     }
 
 //    private fun setupViewPager() {
