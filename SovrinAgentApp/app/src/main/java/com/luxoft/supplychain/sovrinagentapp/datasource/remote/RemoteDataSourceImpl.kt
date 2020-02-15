@@ -171,6 +171,8 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
 
     private fun createProofRequest(): ProofRequest {
         val proofReq = proofRequest("proof_req", "0.1") {
+            //            val eighteenYearsAgo = LocalDateTime.now().minusYears(17).year
+//            proveGreaterThan()
             reveal("firstName")
             reveal("birthDate")
             reveal("photo")
