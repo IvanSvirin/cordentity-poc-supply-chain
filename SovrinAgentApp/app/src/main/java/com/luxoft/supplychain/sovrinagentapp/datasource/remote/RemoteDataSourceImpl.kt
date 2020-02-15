@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import com.luxoft.blockchainlab.corda.hyperledger.indy.AgentConnection
 import com.luxoft.blockchainlab.hyperledger.indy.models.ProofInfo
 import com.luxoft.blockchainlab.hyperledger.indy.models.ProofRequest
-import com.luxoft.blockchainlab.hyperledger.indy.utils.SerializationUtils
 import com.luxoft.supplychain.sovrinagentapp.data.ApplicationState
 import com.luxoft.supplychain.sovrinagentapp.data.Invite
 import com.luxoft.supplychain.sovrinagentapp.data.SharedPreferencesStore
@@ -17,10 +16,9 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.luxoft.blockchainlab.corda.hyperledger.indy.IndyPartyConnection
-import com.luxoft.blockchainlab.hyperledger.indy.utils.FilterProperty
-import com.luxoft.blockchainlab.hyperledger.indy.utils.proofRequest
-import com.luxoft.blockchainlab.hyperledger.indy.utils.reveal
+import com.luxoft.blockchainlab.hyperledger.indy.utils.*
 import com.luxoft.supplychain.sovrinagentapp.application.*
+import java.time.LocalDateTime
 
 
 class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnection, private val applicationState: ApplicationState, private val sharedPreferencesStore: SharedPreferencesStore)
@@ -171,13 +169,12 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
 
     private fun createProofRequest(): ProofRequest {
         val proofReq = proofRequest("proof_req", "0.1") {
-            //            val eighteenYearsAgo = LocalDateTime.now().minusYears(17).year
-//            proveGreaterThan()
             reveal("firstName")
             reveal("birthDate")
             reveal("photo")
             reveal("secondName")
             reveal("swissPassNum")
+            proveGreaterThan("birthDate", System.currentTimeMillis().toInt())
 //            reveal("medicalid") { FilterProperty.IssuerDid shouldBe "H4KaAh8W8DUaj47s4PXQEB" }
         }
         return proofReq;
