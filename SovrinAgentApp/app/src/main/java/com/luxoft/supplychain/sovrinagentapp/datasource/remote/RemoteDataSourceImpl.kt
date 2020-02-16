@@ -169,11 +169,11 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
 
     private fun createProofRequest(): ProofRequest {
         val proofReq = proofRequest("proof_req", "0.1") {
-            reveal("firstName")
-            reveal("birthDate")
-            reveal("photo")
-            reveal("secondName")
-            reveal("swissPassNum")
+//            reveal("firstName")
+//            reveal("birthDate")
+//            reveal("photo")
+//            reveal("secondName")
+//            reveal("swissPassNum")
             proveGreaterThan("birthDate", System.currentTimeMillis().toInt())
 //            reveal("medicalid") { FilterProperty.IssuerDid shouldBe "H4KaAh8W8DUaj47s4PXQEB" }
         }
