@@ -174,7 +174,7 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
 //            reveal("photo")
 //            reveal("secondName")
 //            reveal("swissPassNum")
-            proveGreaterThan("Birth_Date", System.currentTimeMillis().toInt())
+            proveGreaterThan("Birth_Date", 0)
 //            reveal("medicalid") { FilterProperty.IssuerDid shouldBe "H4KaAh8W8DUaj47s4PXQEB" }
         }
         return proofReq;
