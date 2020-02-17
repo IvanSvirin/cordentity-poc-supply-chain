@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     //    private val realm: Realm = Realm.getDefaultInstance()
     private val appState: ApplicationState by inject()
-//    private lateinit var ordersFragment: OrdersFragment
+    //    private lateinit var ordersFragment: OrdersFragment
     private val vm: IndyViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 //        setupViewPager()
 
 //        startTimer()
-        appState.user.observe({lifecycle}) { user ->
+        appState.user.observe({ lifecycle }) { user ->
         }
         getQr()
     }
@@ -173,9 +173,11 @@ class MainActivity : AppCompatActivity() {
             when (it.state) {
                 ResourceState.LOADING -> {
                     Toast.makeText(this, "Creating invite QR code", Toast.LENGTH_LONG)
+                    showNotification(this, "Creating invite QR code", "Creating invite QR code")
                 }
                 ResourceState.SUCCESS -> {
                     Toast.makeText(this, "QR code is created", Toast.LENGTH_LONG)
+                    showNotification(this, "QR code is created", "QR code is created")
                     showQR(it.data)
                 }
                 ResourceState.ERROR -> Toast.makeText(this, "Get Claims Error: ${it.message}", Toast.LENGTH_LONG)
@@ -194,9 +196,11 @@ class MainActivity : AppCompatActivity() {
             when (it.state) {
                 ResourceState.LOADING -> {
                     Toast.makeText(this, "Waiting for Indy Party Connection", Toast.LENGTH_LONG)
+                    showNotification(this, "Waiting for Indy Party Connection", "Waiting for Indy Party Connection")
                 }
                 ResourceState.SUCCESS -> {
                     Toast.makeText(this, "Connection is created", Toast.LENGTH_LONG)
+                    showNotification(this, "Connection is created", "Connection is created")
                     sendProofRequestReceiveAndVerify(it.data)
                 }
                 ResourceState.ERROR -> Toast.makeText(this, "Connection Error: ${it.message}", Toast.LENGTH_LONG)
@@ -214,9 +218,11 @@ class MainActivity : AppCompatActivity() {
             when (it.state) {
                 ResourceState.LOADING -> {
                     Toast.makeText(this, "Verifying proof request", Toast.LENGTH_LONG)
+                    showNotification(this, "Verifying proof request", "Verifying proof request")
                 }
                 ResourceState.SUCCESS -> {
                     Toast.makeText(this, "Verified", Toast.LENGTH_LONG)
+                    showNotification(this, "Verified", "Verified")
                 }
                 ResourceState.ERROR -> Toast.makeText(this, "Verifying Error: ${it.message}", Toast.LENGTH_LONG)
             }
