@@ -84,6 +84,9 @@ class SimpleScannerActivity : AppCompatActivity() {
             it.setDisplayHomeAsUpEnabled(true)
             it.setHomeAsUpIndicator(R.drawable.ic_back)
         }
+        appState.indyState.indyUser.observeForever { user: IndyUser ->
+            user.walletUser.updateCredentialsInRealm()
+        }
 
         IntentIntegrator(this).setPrompt("SCAN").setOrientationLocked(false).initiateScan()
     }
@@ -403,7 +406,6 @@ class SimpleScannerActivity : AppCompatActivity() {
                 .map { attributePresentationRules.formatName(it) }
                 .joinToString(separator = "\n  - ", prefix = "  - ")
 
-//        val requestedCredentials = ""
         val requestedCredentials = creds!!
                 .filter { it.attributes.keys.intersect(requestedAttributeKeys).isNotEmpty() }
                 .map { credentialPresentationRules.formatName(it) }

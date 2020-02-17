@@ -93,16 +93,6 @@ val repositoryModule: Module = module {
     single { IndyRepositoryImpl(localDataSource = get(), remoteDataSource = get()) as IndyRepository }
 }
 
-val dataSourceModule: Module = module {
-    single { RemoteDataSourceImpl(agentConnection = agentConnection, applicationState = applicationState, sharedPreferencesStore = get()) as RemoteDataSource }
-    single { LocalDataSourceImpl() as LocalDataSource }
-}
-
-val sharedPreferencesStoreModule: Module = module {
-    single { SharedPreferencesStore(androidContext()) }
-}
-
-
 val applicationsStateModule: Module = module {
     single<ApplicationState> {
         applicationState.context = androidContext()
@@ -118,6 +108,32 @@ val applicationState = ApplicationState(
         phoneStorage.resolve(GENESIS_PATH),
         phoneStorage.resolve(TAILS_PATH)
 )
+
+val dataSourceModule: Module = module {
+    single { RemoteDataSourceImpl(agentConnection = agentConnection, applicationState = applicationState, sharedPreferencesStore = get()) as RemoteDataSource }
+    single { LocalDataSourceImpl() as LocalDataSource }
+}
+
+val sharedPreferencesStoreModule: Module = module {
+    single { SharedPreferencesStore(androidContext()) }
+}
+
+
+//val applicationsStateModule: Module = module {
+//    single<ApplicationState> {
+//        applicationState.context = androidContext()
+//        applicationState
+//    }
+//}
+//
+//val phoneStorage = Environment.getExternalStorageDirectory().toURI()
+//
+//val applicationState = ApplicationState(
+////                androidContext(),
+//        InetAddress.getByName(GENESIS_IP),
+//        phoneStorage.resolve(GENESIS_PATH),
+//        phoneStorage.resolve(TAILS_PATH)
+//)
 
 val agentConnectionModule: Module = module {
     single<AgentConnection>(createdAtStart = true) {
