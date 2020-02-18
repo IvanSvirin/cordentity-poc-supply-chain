@@ -43,6 +43,7 @@ import com.luxoft.supplychain.sovrinagentapp.data.communcations.SovrinAgentServi
 import com.luxoft.supplychain.sovrinagentapp.data.*
 import com.luxoft.supplychain.sovrinagentapp.utils.Resource
 import com.luxoft.supplychain.sovrinagentapp.utils.ResourceState
+import com.luxoft.supplychain.sovrinagentapp.utils.showNotification
 import com.luxoft.supplychain.sovrinagentapp.utils.updateCredentialsInRealm
 import com.luxoft.supplychain.sovrinagentapp.viewmodel.IndyViewModel
 import io.realm.Realm
@@ -53,6 +54,9 @@ import retrofit.GsonConverterFactory
 import retrofit.Retrofit
 import retrofit.RxJavaCallAdapterFactory
 import rx.Completable
+import rx.Observable
+import rx.Single
+import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -111,7 +115,10 @@ class SimpleScannerActivity : AppCompatActivity() {
                     setStatusName("Sending proof")
                     publishProgress("Sending proof")
                 }
-                ResourceState.SUCCESS -> if (it.data.equals("completed")) notifyAndFinish("Proof was sent") else it.data?.let { it1 -> publishProgress(it1) }
+                ResourceState.SUCCESS -> if (it.data.equals("completed")) {
+                    showNotification(this, "Proof was sent", "Proof was sent")
+                    io.reactivex.Observable.timer(2, TimeUnit.SECONDS).subscribe { aLong -> run { notifyAndFinish("Proof was sent") } }
+                } else it.data?.let { it1 -> publishProgress(it1) }
                 ResourceState.ERROR -> notifyAndFinish("Sending proof Error: ${it.message}")
             }
         }
@@ -141,8 +148,9 @@ class SimpleScannerActivity : AppCompatActivity() {
                 appState.credentialPresentationRules, appState.credentialAttributePresentationRules)
 
         val dialog = AlertDialog.Builder(this@SimpleScannerActivity)
-                .setTitle("Claims Requested")
-                .setMessage(bodyMessage)
+//                .setTitle("Claims Requested")
+                .setMessage("Verifier requests that your age group is 16+ and photo")
+//                .setMessage(bodyMessage)
                 .setCancelable(false)
                 .setPositiveButton("ALLOW") { _, _ ->
                     publishProgress(R.string.progress_providing_authentication_proofs)
