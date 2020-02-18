@@ -20,10 +20,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
+import android.util.Base64
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.BitmapCompat
 import androidx.lifecycle.Observer
 import com.luxoft.blockchainlab.corda.hyperledger.indy.IndyPartyConnection
 import com.luxoft.blockchainlab.hyperledger.indy.IndyUser
@@ -33,6 +36,7 @@ import com.luxoft.supplychain.sovrinagentapp.application.NAME
 import com.luxoft.supplychain.sovrinagentapp.data.ApplicationState
 import com.luxoft.supplychain.sovrinagentapp.data.ClaimAttribute
 import com.luxoft.supplychain.sovrinagentapp.data.PopupStatus
+import com.luxoft.supplychain.sovrinagentapp.datasource.remote.RemoteDataSourceImpl.Companion.reference
 import com.luxoft.supplychain.sovrinagentapp.utils.Resource
 import com.luxoft.supplychain.sovrinagentapp.utils.ResourceState
 import com.luxoft.supplychain.sovrinagentapp.views.adapters.ViewPagerAdapter
@@ -223,6 +227,13 @@ class MainActivity : AppCompatActivity() {
                 ResourceState.SUCCESS -> {
                     Toast.makeText(this, "Verified", Toast.LENGTH_LONG)
                     showNotification(this, "Verified", "Verified")
+                    val s: String = reference.raw
+
+                    val byteArray = Base64.decode(s, Base64.DEFAULT)
+                    val size: Int = byteArray.size
+                    val bmp: Bitmap
+                    bmp = BitmapFactory.decodeByteArray(byteArray, 0, size)
+                    imageViewQRCode.setImageBitmap(bmp)
                 }
                 ResourceState.ERROR -> Toast.makeText(this, "Verifying Error: ${it.message}", Toast.LENGTH_LONG)
             }

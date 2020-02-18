@@ -1,6 +1,7 @@
 package com.luxoft.supplychain.sovrinagentapp.datasource.remote
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import com.luxoft.blockchainlab.corda.hyperledger.indy.AgentConnection
 import com.luxoft.blockchainlab.hyperledger.indy.models.ProofInfo
 import com.luxoft.blockchainlab.hyperledger.indy.models.ProofRequest
@@ -16,6 +17,7 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.luxoft.blockchainlab.corda.hyperledger.indy.IndyPartyConnection
+import com.luxoft.blockchainlab.hyperledger.indy.models.RevealedAttributeReference
 import com.luxoft.blockchainlab.hyperledger.indy.utils.*
 import com.luxoft.supplychain.sovrinagentapp.application.*
 import java.time.LocalDateTime
@@ -156,6 +158,7 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
                     indyPartyConnection!!.sendProofRequest(proofRequest).apply {
                         indyPartyConnection.receiveProof().toBlocking().value().apply {
                             val verified: Boolean = applicationState.indyState.indyUser.value!!.verifyProofWithLedgerData(proofRequest, this)
+                            reference = getAttributeValue("photo")!!
                             boolean.onSuccess(verified)
                         }
                     }
@@ -167,15 +170,19 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
 
     }
 
+    companion object {
+        lateinit var reference: RevealedAttributeReference
+    }
+
     private fun createProofRequest(): ProofRequest {
         val proofReq = proofRequest("proof_req", "0.1") {
-//            reveal("firstName")
+            //            reveal("firstName")
 //            reveal("birthDate")
-//            reveal("photo")
+            reveal("photo")
 //            reveal("secondName")
 //            reveal("swissPassNum")
-            //greater than 16 years in sec
-            proveGreaterThan("Birth_Date", 504924600)
+            //greater than 16 years in sec = 504924600 (birthDate in attr = 1043647418353)
+            proveGreaterThan("Birth_Date", 0)
 //            reveal("medicalid") { FilterProperty.IssuerDid shouldBe "H4KaAh8W8DUaj47s4PXQEB" }
         }
         return proofReq;
