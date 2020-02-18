@@ -181,8 +181,8 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
             reveal("photo")
 //            reveal("secondName")
 //            reveal("swissPassNum")
-            //greater than 16 years in sec = 504924600 (birthDate in attr = 1043647418353)
-            proveGreaterThan("Birth_Date", 0)
+            //greater than 16 years in sec = 504924600 (birthDate in attr = 1043647418353)  42 < x < 43
+            proveGreaterThan("Birth_Date", 42)
 //            reveal("medicalid") { FilterProperty.IssuerDid shouldBe "H4KaAh8W8DUaj47s4PXQEB" }
         }
         return proofReq;
