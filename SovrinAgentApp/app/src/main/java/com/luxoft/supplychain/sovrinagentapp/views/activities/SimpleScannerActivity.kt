@@ -116,7 +116,7 @@ class SimpleScannerActivity : AppCompatActivity() {
                     publishProgress("Sending proof")
                 }
                 ResourceState.SUCCESS -> if (it.data.equals("completed")) {
-                    showNotification(this, "Proof was sent", "Proof was sent")
+                    publishProgress("Proof was sent")
                     io.reactivex.Observable.timer(2, TimeUnit.SECONDS).subscribe { aLong -> run { notifyAndFinish("Proof was sent") } }
                 } else it.data?.let { it1 -> publishProgress(it1) }
                 ResourceState.ERROR -> notifyAndFinish("Sending proof Error: ${it.message}")
