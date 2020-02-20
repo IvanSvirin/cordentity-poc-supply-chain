@@ -178,7 +178,7 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
         val proofReq = proofRequest("proof_req", "0.1") {
             //            reveal("firstName")
 //            reveal("birthDate")
-//            reveal("photo")
+            reveal("photo")
 //            reveal("secondName")
 //            reveal("swissPassNum")
             //greater than 16 years in sec = 504924600 (birthDate in attr = 1043647418353)  42 < x < 43
