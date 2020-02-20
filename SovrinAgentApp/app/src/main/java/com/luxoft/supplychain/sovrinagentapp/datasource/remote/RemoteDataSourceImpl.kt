@@ -17,6 +17,7 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.luxoft.blockchainlab.corda.hyperledger.indy.IndyPartyConnection
+import com.luxoft.blockchainlab.hyperledger.indy.models.PredicateTypes
 import com.luxoft.blockchainlab.hyperledger.indy.models.RevealedAttributeReference
 import com.luxoft.blockchainlab.hyperledger.indy.utils.*
 import com.luxoft.supplychain.sovrinagentapp.application.*
@@ -182,7 +183,8 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
 //            reveal("secondName")
 //            reveal("swissPassNum")
             //greater than 16 years in sec = 504924600 (birthDate in attr = 1043647418353)  42 < x < 43
-            proveGreaterThan("Birth_Date", 42)
+            provePredicateThan("Birth_Date", PredicateTypes.LT,1043647418359)
+//            proveGreaterThan("Birth_Date", 42)
 //            reveal("medicalid") { FilterProperty.IssuerDid shouldBe "H4KaAh8W8DUaj47s4PXQEB" }
         }
         return proofReq;
