@@ -182,8 +182,8 @@ class RemoteDataSourceImpl constructor(private val agentConnection: AgentConnect
             reveal("photo")
 //            reveal("secondName")
 //            reveal("swissPassNum")
-            //greater than 16 years in sec = 504924600 (birthDate in attr = 1043647418353)  42 < x < 43
-            provePredicateThan("Birth_Date", PredicateTypes.GE,42)
+            //less than today = 1582447223 minus 16 years in sec = 504924600 == 1077522623(birthDate in attr = 1043675475)
+            provePredicateThan("Birth_Date", PredicateTypes.LT,1077522623)
 //            proveGreaterThan("Birth_Date", 42)
 //            reveal("medicalid") { FilterProperty.IssuerDid shouldBe "H4KaAh8W8DUaj47s4PXQEB" }
         }
